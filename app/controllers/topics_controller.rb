@@ -171,8 +171,8 @@ class TopicsController < ApplicationController
     if should_track_visit_to_topic?
       @topic_view.draft = Draft.get(current_user, @topic_view.draft_key, @topic_view.draft_sequence)
     end
-
     response.headers["X-Robots-Tag"] = "noindex" unless @topic_view.topic.visible
+    response.headers["X-Robots-Tag"] = "noindex" if @topic_view.topic.custom_fields["noindex"]=="true"
 
     canonical_url UrlHelper.absolute_without_cdn(@topic_view.canonical_path)
 
@@ -922,6 +922,25 @@ class TopicsController < ApplicationController
       render json: success_json
     rescue ActiveRecord::RecordInvalid, TopicTimestampChanger::InvalidTimestampError
       render json: failed_json, status: 422
+    end
+  end
+
+  def toggle_noindex
+    topic_id = params.require(:topic_id).to_i
+    topic = Topic.find(topic_id)
+    if topic
+      current = topic.custom_fields["noindex"]
+      newval = nil
+      Rails.logger.warn("currentnoindex:#{current}")
+      if !current
+        newval = true
+      elsif current==true||current=="true"||current=='t'
+        newval = 'f'
+      else
+        newval = 't'
+      end
+      topic.custom_fields["noindex"]=newval
+      topic.save!
     end
   end
 

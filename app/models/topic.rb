@@ -619,6 +619,10 @@ class Topic < ActiveRecord::Base
     topics
   end
 
+  def indexable
+    noindex = custom_fields["noindex"]
+    noindex.nil?||noindex=="t" ? "true": "false"
+  end
   def meta_data=(data)
     custom_fields.replace(data)
   end

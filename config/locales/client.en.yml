@@ -3171,6 +3171,8 @@ en:
         make_public: "Make Public Topic..."
         make_private: "Make Personal Message"
         reset_bump_date: "Reset Bump Date"
+        noindex: "Hide Topic From Search Engines"
+        noindex_stop: "Stop Hiding Topic From Search Engines"
 
       feature:
         pin: "Pin Topic"

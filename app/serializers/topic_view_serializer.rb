@@ -43,6 +43,7 @@ class TopicViewSerializer < ApplicationSerializer
     :image_url,
     :slow_mode_seconds,
     :external_id,
+    :indexable
   )
 
   attributes(
@@ -85,6 +86,11 @@ class TopicViewSerializer < ApplicationSerializer
   has_many :pending_posts, serializer: TopicPendingPostSerializer, root: false, embed: :objects
 
   has_one :published_page, embed: :objects
+
+  def indexable
+    noindex = object.topic.custom_fields["noindex"]
+    noindex.nil?||noindex=="t" ? true: false
+  end
 
   def details
     object

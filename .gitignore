@@ -58,6 +58,10 @@
 # Likewise, there is a .vscode-sample for VSCode config
 .vscode
 
+# for those using an IDE from idea
+.idea/
+app/assets/javascripts/.idea/
+
 # Front-end
 dist
 node_modules
