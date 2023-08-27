@@ -43,7 +43,7 @@ class TopicViewSerializer < ApplicationSerializer
     :image_url,
     :slow_mode_seconds,
     :external_id,
-    :indexable
+    :noindex
   )
 
   attributes(

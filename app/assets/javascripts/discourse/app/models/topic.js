@@ -793,11 +793,10 @@ Topic.reopenClass({
     const promise = ajax(`/t/${topicId}/toggle-noindex`, {
       type: "PUT",
     }).then((result) => {
-      console.log("result",result)
-      // if (result.success) {
-      //   return result;
-      // }
-      // promise.reject(new Error("error toggling topic noindex"));
+      if (result.success) {
+        return result;
+      }
+      promise.reject(new Error("error toggling topic noindex"));
     });
     return promise;
   },

@@ -619,7 +619,7 @@ class Topic < ActiveRecord::Base
     topics
   end
 
-  def indexable
+  def noindex
     noindex = custom_fields["noindex"]
     noindex.nil?||noindex=="t" ? true: false
   end

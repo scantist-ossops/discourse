@@ -929,9 +929,8 @@ class TopicsController < ApplicationController
     topic_id = params.require(:topic_id).to_i
 
     guardian.ensure_can_change_topic_noindex!
-
-    topic = Topic.find(topic_id)
-    if topic
+    begin
+      topic = Topic.find(topic_id)
       current = topic.custom_fields["noindex"]
       newval = nil
       if current.nil? or current=='f'
@@ -941,6 +940,10 @@ class TopicsController < ApplicationController
       end
       topic.custom_fields["noindex"]=newval
       topic.save!
+
+      render json: success_json
+    rescue ActiveRecord::RecordInvalid
+      render json: failed_json, status: 422
     end
   end
 
