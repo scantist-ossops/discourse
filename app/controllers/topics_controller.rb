@@ -171,6 +171,7 @@ class TopicsController < ApplicationController
     if should_track_visit_to_topic?
       @topic_view.draft = Draft.get(current_user, @topic_view.draft_key, @topic_view.draft_sequence)
     end
+
     response.headers["X-Robots-Tag"] = "noindex" unless @topic_view.topic.visible
 
     canonical_url UrlHelper.absolute_without_cdn(@topic_view.canonical_path)
