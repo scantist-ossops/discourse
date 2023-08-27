@@ -789,18 +789,6 @@ Topic.reopenClass({
     return promise;
   },
 
-  toggleNoIndex:(topicId) =>{
-    const promise = ajax(`/t/${topicId}/toggle-noindex`, {
-      type: "PUT",
-    }).then((result) => {
-      if (result.success) {
-        return result;
-      }
-      promise.reject(new Error("error toggling topic noindex"));
-    });
-    return promise;
-  },
-
   bulkOperation(topics, operation, tracked) {
     const data = {
       topic_ids: topics.mapBy("id"),
