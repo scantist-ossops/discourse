@@ -87,11 +87,6 @@ class TopicViewSerializer < ApplicationSerializer
 
   has_one :published_page, embed: :objects
 
-  def indexable
-    noindex = object.topic.custom_fields["noindex"]
-    noindex.nil?||noindex=="t" ? true: false
-  end
-
   def details
     object
   end

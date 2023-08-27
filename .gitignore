@@ -58,7 +58,7 @@
 # Likewise, there is a .vscode-sample for VSCode config
 .vscode
 
-# for those using an IDE from idea
+# for those using an IDE from JetBrains
 .idea/
 app/assets/javascripts/.idea/
 

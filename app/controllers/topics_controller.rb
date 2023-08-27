@@ -172,7 +172,7 @@ class TopicsController < ApplicationController
       @topic_view.draft = Draft.get(current_user, @topic_view.draft_key, @topic_view.draft_sequence)
     end
     response.headers["X-Robots-Tag"] = "noindex" unless @topic_view.topic.visible
-    response.headers["X-Robots-Tag"] = "noindex" if @topic_view.topic.custom_fields["noindex"]=="true"
+    response.headers["X-Robots-Tag"] = "noindex" if @topic_view.topic.custom_fields["noindex"]=="t"
 
     canonical_url UrlHelper.absolute_without_cdn(@topic_view.canonical_path)
 
@@ -927,17 +927,17 @@ class TopicsController < ApplicationController
 
   def toggle_noindex
     topic_id = params.require(:topic_id).to_i
+
+    guardian.ensure_can_change_topic_noindex!
+
     topic = Topic.find(topic_id)
     if topic
       current = topic.custom_fields["noindex"]
       newval = nil
-      Rails.logger.warn("currentnoindex:#{current}")
-      if !current
-        newval = true
-      elsif current==true||current=="true"||current=='t'
-        newval = 'f'
+      if current.nil? or current=='f'
+        newval = "t"
       else
-        newval = 't'
+        newval = "f"
       end
       topic.custom_fields["noindex"]=newval
       topic.save!
