@@ -316,9 +316,6 @@ module PostGuardian
     is_staff?
   end
 
-  def can_change_topic_noindex?
-    is_staff?
-  end
 
   def can_wiki?(post)
     return false unless authenticated?

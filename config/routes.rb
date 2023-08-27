@@ -1391,10 +1391,6 @@ Discourse::Application.routes.draw do
         :constraints => {
           topic_id: /\d+/,
         }
-    put "t/:topic_id/toggle-noindex" => "topics#toggle_noindex",
-        :constraints => {
-          topic_id: /\d+/,
-        }
     delete "t/:topic_id/timings" => "topics#destroy_timings", :constraints => { topic_id: /\d+/ }
     put "t/:topic_id/bookmark" => "topics#bookmark", :constraints => { topic_id: /\d+/ }
     put "t/:topic_id/remove_bookmarks" => "topics#remove_bookmarks",

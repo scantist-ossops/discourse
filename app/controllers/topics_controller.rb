@@ -172,7 +172,6 @@ class TopicsController < ApplicationController
       @topic_view.draft = Draft.get(current_user, @topic_view.draft_key, @topic_view.draft_sequence)
     end
     response.headers["X-Robots-Tag"] = "noindex" unless @topic_view.topic.visible
-    response.headers["X-Robots-Tag"] = "noindex" if @topic_view.topic.custom_fields["noindex"]=="t"
 
     canonical_url UrlHelper.absolute_without_cdn(@topic_view.canonical_path)
 
@@ -921,28 +920,6 @@ class TopicsController < ApplicationController
 
       render json: success_json
     rescue ActiveRecord::RecordInvalid, TopicTimestampChanger::InvalidTimestampError
-      render json: failed_json, status: 422
-    end
-  end
-
-  def toggle_noindex
-    topic_id = params.require(:topic_id).to_i
-
-    guardian.ensure_can_change_topic_noindex!
-    begin
-      topic = Topic.find(topic_id)
-      current = topic.custom_fields["noindex"]
-      newval = nil
-      if current.nil? or current=='f'
-        newval = "t"
-      else
-        newval = "f"
-      end
-      topic.custom_fields["noindex"]=newval
-      topic.save!
-
-      render json: success_json
-    rescue ActiveRecord::RecordInvalid
       render json: failed_json, status: 422
     end
   end
