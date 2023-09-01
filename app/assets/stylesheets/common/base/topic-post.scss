@@ -61,6 +61,7 @@
     vertical-align: middle;
     a {
       color: var(--primary-high-or-secondary-low);
+      outline-offset: -1px;
     }
   }
   .fa {
@@ -940,8 +941,15 @@ aside.quote {
     border-top: 1px solid var(--primary-low);
     padding-top: 0.5em;
   }
+}
+
+.topic-body:not(.deleted),
+.small-action-desc {
   &.highlighted {
     animation: background-fade-highlight 2.5s ease-out;
+    &:focus-visible {
+      outline: none;
+    }
   }
   .deleted & {
     // Disable so the deleted background is visible immediately
@@ -1135,6 +1143,10 @@ blockquote > *:last-child {
   display: flex;
   align-items: center;
 
+  &:focus-visible {
+    outline: none;
+  }
+
   &.deleted {
     background-color: var(--danger-low-mid);
   }
@@ -1170,6 +1182,11 @@ blockquote > *:last-child {
     );
     min-width: 0; // Allows flex container to shrink
 
+    .avatar {
+      margin-right: 0.5em;
+      float: left;
+    }
+
     p {
       margin: 0;
       padding: 0.15em 0.5em 0 0;
@@ -1178,13 +1195,6 @@ blockquote > *:last-child {
 
   .small-action-contents {
     flex: 1 1 auto;
-    display: flex;
-    a.trigger-user-card {
-      display: inline-flex;
-      align-items: center;
-      margin-right: 0.5em;
-      border-radius: 1em;
-    }
   }
 
   .small-action-buttons {
