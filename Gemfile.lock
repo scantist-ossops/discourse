@@ -142,6 +142,7 @@ GEM
     excon (0.104.0)
     execjs (2.9.1)
     exifr (1.4.0)
+    extralite-bundle (2.2)
     fabrication (2.30.0)
     faker (2.23.0)
       i18n (>= 1.8.11, < 2)
@@ -567,6 +568,7 @@ DEPENDENCIES
   email_reply_trimmer
   excon
   execjs
+  extralite-bundle
   fabrication
   faker (~> 2.16)
   fakeweb
@@ -602,6 +604,7 @@ DEPENDENCIES
   minio_runner
   minitest
   mocha
+  msgpack
   multi_json
   mustache
   net-http
@@ -668,6 +671,7 @@ DEPENDENCIES
   webmock
   yaml-lint
   yard
+  zeitwerk
 
 BUNDLED WITH
    2.4.13

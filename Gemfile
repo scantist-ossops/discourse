@@ -10,15 +10,15 @@ def rails_master?
   ENV["RAILS_MASTER"] == "1"
 end
 
+# To issue a rails update bump the version number here
+rails_version = "7.0.7"
+
 if rails_master?
   gem "arel", git: "https://github.com/rails/arel.git"
   gem "rails", git: "https://github.com/rails/rails.git"
 else
   # NOTE: Until rubygems gives us optional dependencies we are stuck with this needing to be explicit
   # this allows us to include the bits of rails we use without pieces we do not.
-  #
-  # To issue a rails update bump the version number here
-  rails_version = "7.0.7"
   gem "actionmailer", rails_version
   gem "actionpack", rails_version
   gem "actionview", rails_version
@@ -280,3 +280,11 @@ gem "net-http"
 gem "cgi", ">= 0.3.6", require: false
 
 gem "tzinfo-data"
+
+group :migrations, optional: true do
+  gem "activesupport", rails_version
+  gem "extralite-bundle"
+  gem "msgpack"
+  gem "thor"
+  gem "zeitwerk"
+end
