@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CategoryList
+  CATEGORIES_PER_PAGE = 50
+
   include ActiveModel::Serialization
 
   cattr_accessor :preloaded_topic_custom_fields
@@ -133,6 +135,12 @@ class CategoryList
       ) if @options[:parent_category_id].present?
 
     query = self.class.order_categories(query)
+
+    if SiteSetting.lazy_load_categories
+      page = [1, @options[:page].to_i].max
+      query = query.limit(CATEGORIES_PER_PAGE).offset((page - 1) * CATEGORIES_PER_PAGE)
+    end
+
     query =
       DiscoursePluginRegistry.apply_modifier(:category_list_find_categories_query, query, self)
 
@@ -143,7 +151,7 @@ class CategoryList
     notification_levels = CategoryUser.notification_levels_for(@guardian.user)
     default_notification_level = CategoryUser.default_notification_level
 
-    if @options[:parent_category_id].blank?
+    if @options[:page].blank? && @options[:parent_category_id].blank?
       subcategory_ids = {}
       subcategory_list = {}
       to_delete = Set.new
