@@ -316,7 +316,9 @@ class CategoriesController < ApplicationController
 
     raise Discourse::NotFound if categories.blank?
 
-    render_serialized(categories, SiteCategorySerializer, root: :categories)
+    Category.preload_user_fields!(guardian, categories)
+
+    render_serialized(categories, SiteCategorySerializer, root: :categories, scope: guardian)
   end
 
   def search
@@ -382,6 +384,8 @@ class CategoriesController < ApplicationController
     SQL
 
     categories = categories.order(:id)
+
+    Category.preload_user_fields!(guardian, categories)
 
     render json: categories, each_serializer: SiteCategorySerializer
   end
