@@ -231,7 +231,7 @@ gem "logstash-logger", require: false
 gem "logster"
 
 # A fork of sassc with dart-sass support
-gem "dartsass-ruby"
+gem "sassc-embedded", ">=1.68.5"
 
 gem "rotp", require: false
 
