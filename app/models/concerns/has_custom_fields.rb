@@ -344,7 +344,13 @@ module HasCustomFields
 
   def custom_fields_value_length
     custom_fields.each do |name, value|
-      self.class.get_custom_field_descriptor(name).validate(self, name, value)
+      descriptor = self.class.get_custom_field_descriptor(name)
+
+      if Array === value
+        value.each { |v| descriptor.validate(self, name, v) }
+      else
+        descriptor.validate(self, name, value)
+      end
     end
   end
 end
